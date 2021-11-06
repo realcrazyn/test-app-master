@@ -67,6 +67,7 @@ export const Residents = (props) => {
 
   const handleCancel = () => {
     setIsModalVisible(false)
+    setPhoneCheck(false)
   }
 
   const { Option } = Select

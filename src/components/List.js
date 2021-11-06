@@ -1,5 +1,5 @@
 import 'antd/dist/antd.css'
-import { Modal, Input, Select, Form, Card, Button } from 'antd'
+import { Modal, Input, Select, Form, Card, Button, Alert } from 'antd'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import {
@@ -13,6 +13,7 @@ import {
 export const ResidentsList = (props) => {
   const [residents, setResidents] = useState()
   const [isModalVisible, setIsModalVisible] = useState(false)
+  const [phoneCheck, setPhoneCheck] = useState(false)
   const [form, setForm] = useState({
     id: 0,
     name: '',
@@ -70,12 +71,19 @@ export const ResidentsList = (props) => {
   }
 
   const handleOk = () => {
-    setIsModalVisible(false)
-    changeResidentsHandler(form)
+    console.log(form.phone.length)
+    if (form.phone.length !== 0) {
+      setPhoneCheck(false)
+      setIsModalVisible(false)
+      changeResidentsHandler(form)
+    } else {
+      setPhoneCheck(true)
+    }
   }
 
   const handleCancel = () => {
     setIsModalVisible(false)
+    setPhoneCheck(false)
   }
 
   const changeHandler = (event) => {
@@ -178,6 +186,12 @@ export const ResidentsList = (props) => {
                     />
                   </Form.Item>
                 </Form>
+                {phoneCheck ? (
+                  <Alert
+                    message="Телефон редактированию не подлежит"
+                    type="error"
+                  />
+                ) : null}
               </Modal>
               <Button onClick={() => deleteHandler(e)}>
                 <DeleteOutlined />
